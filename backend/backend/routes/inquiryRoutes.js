@@ -2,27 +2,13 @@ const express = require("express");
 const router = express.Router();
 
 const inquiryController = require("../controllers/inquiryController");
-
 const { requireAuth } = require("../middleware/auth");
 const { csrfProtection } = require("../middleware/csrf");
 
+// PUBLIC: contact form submission
+router.post("/inquiries", inquiryController.createInquiry);
 
-// =========================
-// PUBLIC ROUTE
-// =========================
-
-// Contact form submission
-router.post(
-  "/inquiries",
-  inquiryController.createInquiry
-);
-
-
-// =========================
-// ADMIN ROUTES
-// =========================
-
-// Get all inquiries
+// ADMIN ONLY: get all inquiries
 router.get(
   "/admin/inquiries",
   csrfProtection,
@@ -30,15 +16,6 @@ router.get(
   inquiryController.getAllInquiries
 );
 
-// Get single inquiry
-router.get(
-  "/admin/inquiries/:id",
-  csrfProtection,
-  requireAuth,
-  inquiryController.getInquiryById
-);
-
-// Update inquiry
 router.put(
   "/admin/inquiries/:id",
   csrfProtection,
@@ -46,7 +23,7 @@ router.put(
   inquiryController.updateInquiryStatus
 );
 
-// Delete inquiry
+// ADMIN ONLY: delete inquiry
 router.delete(
   "/admin/inquiries/:id",
   csrfProtection,
