@@ -3,8 +3,7 @@ const { randomUUID } = require('crypto');
 const AdminSession = require('../models/AdminSession');
 
 const COOKIE_NAME = 'admin_session';
-const SESSION_TTL_SECONDS = 10 * 60;
-
+const SESSION_TTL_SECONDS = 20 * 60;
 function getJwtSecret() {
   if (!process.env.SESSION_SECRET) {
     throw new Error('SESSION_SECRET is required');
