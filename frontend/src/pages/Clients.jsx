@@ -214,6 +214,324 @@ export default function Clients() {
           </div>
         </div>
       </section>
+
+<section className="w-full bg-white py-6 sm:py-8 lg:py-10 overflow-hidden">
+  <div className="w-full max-w-[1320px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+
+    {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-6"> */}
+
+      {/* Recent Members */}
+      <div
+        className="
+          bg-white
+          border border-[#dfe8d8]
+          rounded-[18px]
+          p-5 sm:p-6
+          shadow-[0_10px_28px_rgba(0,0,0,0.05)]
+        "
+      >
+        <div className="flex items-center gap-3 mb-5">
+          <User className="text-[#43aa37]" size={30} />
+
+          <h2 className="text-[#071d4f] text-[20px] font-bold uppercase">
+            OUR RECENT MEMBERS
+          </h2>
+
+          <span className="h-[2px] w-[60px] bg-[#43aa37]" />
+        </div>
+
+<div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+  {recentMembers.map((m) => (
+    <div
+      key={m.id}
+      className="
+        group
+        bg-white
+        border border-[#e5e7eb]
+        rounded-[12px]
+        px-4 py-3
+        flex items-center gap-4
+        transition-all duration-300
+        hover:-translate-y-1
+        hover:shadow-[0_10px_22px_rgba(67,170,55,0.12)]
+        hover:border-[#e2ac39]/40
+      "
+    >
+      <div className="w-[82px] h-[82px] rounded-full overflow-hidden bg-[#f7f8fb] border border-[#e6edf5] flex items-center justify-center shrink-0">
+        {m.imageUrl ? (
+          <img
+            src={
+              m.imageUrl.startsWith("http")
+                ? m.imageUrl
+                : `${
+                    import.meta.env.VITE_API_URL?.replace("/api", "") ||
+                    "http://localhost:5000"
+                  }${m.imageUrl}`
+            }
+            alt={m.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <User className="text-[#43aa37]" size={38} />
+        )}
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <div className="flex flex-wrap items-center gap-2 mb-1">
+          <h4 className="text-[#071d4f] text-[14px] font-bold leading-tight">
+            {m.name}
+          </h4>
+
+          {/* <span className="text-[10px] font-bold text-[#43aa37] bg-[#43aa37]/10 px-2 py-[2px] rounded-full">
+            {m.memberCode || "Member"}
+          </span> */}
+        </div>
+
+        <p className="text-black text-[12px] leading-[1.45]">
+          <span className="font-semibold">Designation:</span>{" "}
+          {m.designation || "-"}
+          <br />
+          <span className="font-semibold">Department:</span>{" "}
+          {m.department || "-"}
+        </p>
+
+        {/* <div className="mt-2 space-y-1">
+          <p className="text-[#071d4f] text-[11px] leading-tight break-all">
+            <span className="font-bold">Email:</span> {m.email || "-"}
+          </p>
+
+          <p className="text-[#071d4f] text-[11px] leading-tight">
+            <span className="font-bold">Phone:</span> {m.phone || "-"}
+          </p>
+        </div> */}
+      </div>
+    </div>
+  ))}
+</div>
+
+        {/* <div className="text-center mt-4">
+          <button
+            className="
+              h-[40px]
+              px-8
+              rounded-[5px]
+              border border-[#9aa9bd]
+              text-[#071d4f]
+              font-bold
+              text-[13px]
+              uppercase
+              inline-flex items-center gap-6
+              transition-all duration-300
+              hover:-translate-y-1
+              hover:bg-[#e2ac39]
+              hover:text-white
+              hover:border-[#e2ac39]
+              
+            "
+          >
+            VIEW ALL RECENT MEMBERS
+            <ArrowRight size={18} />
+          </button>
+        </div> */}
+      </div>
+
+      {/* Honorary Members */}
+      {/* <div
+        className="
+          bg-white
+          border border-[#f0dfbd]
+          rounded-[18px]
+          p-5 sm:p-6
+          shadow-[0_10px_28px_rgba(0,0,0,0.05)]
+        "
+      >
+        <div className="flex items-center gap-3 mb-5">
+          <User className="text-[#e2ac39]" size={30} />
+
+          <h2 className="text-[#071d4f] text-[20px] font-bold uppercase">
+            OUR HONORARY MEMBERS
+          </h2>
+
+          <span className="h-[2px] w-[60px] bg-[#e2ac39]" />
+        </div>
+ {honoraryMembers.map((m) => (
+  <div
+    key={m.id}
+    className="group bg-white border border-[#e5e7eb] rounded-[9px] px-3 py-2 flex items-center gap-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_22px_rgba(226,172,57,0.14)] hover:border-[#e2ac39]/45"
+  >
+    <div className="w-[80px] h-[80px] rounded-full overflow-hidden shrink-0 bg-[#f7f8fb] flex items-center justify-center">
+      {m.imageUrl ? (
+        <img
+          src={m.imageUrl}
+          alt={m.name}
+          className="w-full h-full object-cover"
+        />
+      ) : (
+        <User className="text-[#e2ac39]" size={28} />
+      )}
+    </div>
+
+    <div className="flex-1 min-w-0">
+      <h4 className="text-[#071d4f] text-[13px] font-bold leading-tight">
+        {m.name}
+      </h4>
+
+      <p className="text-[#334968] font-medium text-[12px] leading-[1.35]">
+        {m.designation}
+        <br />
+        {m.department}
+        <br />
+        {m.institution}
+      </p>
+
+      <p className="text-[#e2ac39] text-[11px] font-bold mt-1">
+        {m.memberCode}
+      </p>
+    </div>
+
+    <div className="flex items-start gap-2 min-w-[95px]">
+      <CalendarDays size={14} className="text-[#e2ac39] mt-[2px]" />
+      <p className="text-[#071d4f] text-[11px] leading-[1.3] font-medium">
+        Appointed
+        <br />
+        {m.joinedAt ? String(m.joinedAt).slice(0, 10) : "-"}
+      </p>
+    </div>
+  </div>
+))}
+      </div> */}
+
+    {/* </div> */}
+  </div>
+</section>
+
+<section className="w-full py-6 sm:py-8 lg:py-10 overflow-hidden">
+        {/* Main Container */}
+        <div className="w-full max-w-[1320px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+          <div
+            className="
+        relative overflow-hidden
+
+        rounded-[20px]
+
+        px-5 sm:px-7 lg:px-10
+        py-[18px] sm:py-[20px]
+
+        flex flex-col
+        md:flex-row
+
+        items-start
+        md:items-center
+
+        gap-5 md:gap-8
+
+        shadow-[0_18px_35px_rgba(0,0,0,0.08)]
+
+        transition-all duration-500
+        hover:shadow-[0_24px_45px_rgba(0,0,0,0.12)]
+      "
+            style={{
+              backgroundImage: `
+          linear-gradient(rgba(0,28,85,0.92), rgba(0,28,85,0.92)),
+          url(${quoteBg})
+        `,
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          >
+            {/* Left Content */}
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {/* Handshake Icon */}
+              <div
+                className="
+            w-[50px] h-[50px]
+            rounded-full
+            border-2 border-[#e2ac39]
+            flex items-center justify-center
+            shrink-0
+          "
+              >
+                <Handshake className="w-[34px] h-[34px] text-[#e2ac39]" />
+              </div>
+
+              <h3
+                className="
+            text-white
+            text-[1rem]
+            sm:text-[1rem]
+            lg:text-[1.10rem]
+            font-Medium
+            leading-[1.45]
+            max-w-[540px]
+          "
+              >
+                Together, we are shaping the future of research
+                <br className="hidden sm:block" />
+                and education for a better tomorrow.
+              </h3>
+            </div>
+
+            {/* Right Button */}
+            <a
+              href="https://membership.siaresociety.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="
+    group
+    relative z-10
+
+    h-[42px]
+    sm:h-[46px]
+
+    px-5 sm:px-7
+
+    rounded-full
+
+    bg-[linear-gradient(180deg,#f3c04d_0%,#e2ac39_52%,#b9851e_100%)]
+
+    border border-[#c8932a]
+
+    text-[#071d4f]
+
+    text-[11px]
+    sm:text-[13px]
+
+    uppercase
+    font-bold
+
+    flex items-center justify-center gap-2
+
+    shadow-[0_10px_22px_rgba(226,172,57,0.28)]
+
+    transition-all duration-300
+
+    hover:-translate-y-1
+    hover:bg-none
+    hover:bg-[#c8932a]
+    hover:text-white
+    hover:shadow-[0_14px_28px_rgba(226,172,57,0.38)]
+
+    whitespace-nowrap
+
+    w-full
+    sm:w-auto
+
+    md:ml-auto
+  "
+            >
+              BECOME A MEMBER
+              <ArrowRight
+                size={16}
+                strokeWidth={2.2}
+                className="transition-transform duration-300 group-hover:translate-x-1"
+              />
+            </a>
+          </div>
+        </div>
+      </section>
+
+
     </div>
   );
 }
