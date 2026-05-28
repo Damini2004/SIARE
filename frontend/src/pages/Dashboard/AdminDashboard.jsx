@@ -32,10 +32,28 @@ const [stats, setStats] = useState({
   const [managedEvents, setManagedEvents] = useState([]);
   const [membershipTiers, setMembershipTiers] = useState([]);
   const [tiersLoading, setTiersLoading] = useState(false);
+  const [editingFooterId, setEditingFooterId] = useState(null);
+const [editingFooterForm, setEditingFooterForm] = useState({
+  type: "",
+  label: "",
+  value: "",
+  order: 0,
+  isActive: true,
+});
   const [members, setMembers] = useState([]);
   const [membersLoading, setMembersLoading] = useState(false);
   const [activeEventType, setActiveEventType] = useState("conference");
   const [eventsLoading, setEventsLoading] = useState(false);
+  const [footerOpen, setFooterOpen] = useState(false);
+const [footerContacts, setFooterContacts] = useState([]);
+const [footerLoading, setFooterLoading] = useState(false);
+const [footerForm, setFooterForm] = useState({
+  type: "address",
+  label: "",
+  value: "",
+  order: 0,
+  isActive: true,
+});
   const [eventSearch, setEventSearch] = useState("");
   const [eventSort, setEventSort] = useState("createdAt-desc");
   const [eventPage, setEventPage] = useState(1);
@@ -109,6 +127,99 @@ const [stats, setStats] = useState({
     webinar: managedEvents.filter((item) => item.type === "webinar").length,
     workshop: managedEvents.filter((item) => item.type === "workshop").length,
   };
+async function loadFooterContacts() {
+  try {
+    setFooterLoading(true);
+    const res = await API.get("/footer-contact");
+    setFooterContacts(res.data.data || []);
+  } catch (err) {
+    console.log("Footer Contact Error:", err);
+  } finally {
+    setFooterLoading(false);
+  }
+}
+
+async function openFooterPopup() {
+  setFooterOpen(true);
+  await loadFooterContacts();
+}
+async function createFooterContact() {
+  try {
+    if (!footerForm.label.trim()) {
+      alert("Label is required");
+      return;
+    }
+
+    if (!footerForm.value.trim()) {
+      alert("Value is required");
+      return;
+    }
+
+    await API.post("/admin/footer-contact", footerForm);
+
+    alert("Footer contact added");
+
+    setFooterForm({
+      type: "address",
+      label: "",
+      value: "",
+      order: 0,
+      isActive: true,
+    });
+
+    await loadFooterContacts();
+  } catch (err) {
+    alert(err?.response?.data?.error || "Create failed");
+  }
+}
+async function updateFooterContact(id, payload) {
+  try {
+    await API.put(`/admin/footer-contact/${id}`, payload);
+    await loadFooterContacts();
+    alert("Footer contact updated");
+  } catch (err) {
+    alert(err?.response?.data?.error || "Update failed");
+  }
+}
+
+
+function startEditFooter(item) {
+  setEditingFooterId(item.id);
+  setEditingFooterForm({
+    type: item.type || "address",
+    label: item.label || "",
+    value: item.value || "",
+    order: item.order || 0,
+    isActive: item.isActive ?? true,
+  });
+}
+
+async function saveEditFooter(id) {
+  await updateFooterContact(id, editingFooterForm);
+  setEditingFooterId(null);
+}
+async function updateFooterContact(id, payload) {
+  try {
+    await API.put(`/admin/footer-contact/${id}`, payload);
+    await loadFooterContacts();
+    alert("Footer contact updated");
+  } catch (err) {
+    alert(err?.response?.data?.error || "Update failed");
+  }
+}
+
+async function deleteFooterContact(id) {
+  if (!window.confirm("Delete this footer contact?")) return;
+
+  try {
+    await API.delete(`/admin/footer-contact/${id}`);
+    await loadFooterContacts();
+    alert("Footer contact deleted");
+  } catch (err) {
+    alert(err?.response?.data?.error || "Delete failed");
+  }
+}
+
 
   const boxes = [
     {
@@ -370,7 +481,13 @@ const [stats, setStats] = useState({
                       Manage events, members, membership tiers and inquiries.
                     </p>
                   </div>
-
+<button
+  onClick={openFooterPopup}
+  className="h-[38px] px-4 rounded-[12px] bg-[#e2ac39] text-[#071d4f] text-[12px] font-bold flex items-center gap-2"
+>
+  <Mail size={15} />
+  Update Footer Contact
+</button>
                   <button
                     onClick={() => {
                       saveRecentView("Inquiries", "/admin/inquiries");
@@ -378,6 +495,7 @@ const [stats, setStats] = useState({
                     }}
                     className="h-[56px] w-full sm:w-[220px] md:ml-auto rounded-[18px] bg-white px-5 flex items-center justify-between shadow-[0_18px_40px_rgba(0,0,0,0.18)] hover:-translate-y-[2px] transition-all duration-300"
                   >
+                    
                     <div className="flex items-center gap-3">
                       <div className="w-[38px] h-[38px] rounded-[12px] bg-[#fff5de] flex items-center justify-center">
                         <Mail size={16} className="text-[#e2ac39]" />
@@ -1027,6 +1145,240 @@ const [stats, setStats] = useState({
               </div>
             </div>
           </section>
+{/* EXISTING CONTACTS */}
+
+{footerOpen && (
+  <div className="fixed inset-0 z-[999] flex items-center justify-center p-4">
+    <div
+      onClick={() => setFooterOpen(false)}
+      className="absolute inset-0 bg-[#071d4f]/60 backdrop-blur-sm"
+    />
+
+    <div className="relative w-full max-w-[980px] bg-white rounded-[24px] shadow-[0_30px_80px_rgba(0,0,0,0.25)] overflow-hidden">
+      <div className="px-6 py-5 bg-[#071d4f] flex items-center justify-between">
+        <h2 className="text-white text-[18px] font-bold">
+          Manage Footer Contact
+        </h2>
+
+        <button
+          onClick={() => setFooterOpen(false)}
+          className="text-white text-[22px] font-bold"
+        >
+          ×
+        </button>
+      </div>
+
+      <div className="p-6 space-y-5 max-h-[75vh] overflow-y-auto">
+        <div className="border border-[#e5ebf4] rounded-[14px] p-4 bg-[#f8fafd]">
+          <h3 className="text-[#071d4f] text-[14px] font-black uppercase mb-3">
+            Add Footer Contact
+          </h3>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <select
+              value={footerForm.type}
+              onChange={(e) =>
+                setFooterForm((prev) => ({ ...prev, type: e.target.value }))
+              }
+              className="h-[42px] rounded-[10px] border border-[#dfe7f1] px-3 text-[13px] text-[#071d4f]"
+            >
+              <option value="address">Address</option>
+              <option value="email">Email</option>
+              <option value="website">Website</option>
+              <option value="phone">Phone</option>
+            </select>
+
+            <input
+              value={footerForm.label}
+              onChange={(e) =>
+                setFooterForm((prev) => ({ ...prev, label: e.target.value }))
+              }
+              placeholder="Label"
+              className="h-[42px] rounded-[10px] border border-[#dfe7f1] px-3 text-[13px] text-[#071d4f]"
+            />
+
+            <input
+              value={footerForm.value}
+              onChange={(e) =>
+                setFooterForm((prev) => ({ ...prev, value: e.target.value }))
+              }
+              placeholder="Value"
+              className="h-[42px] rounded-[10px] border border-[#dfe7f1] px-3 text-[13px] text-[#071d4f]"
+            />
+
+            <input
+              type="number"
+              value={footerForm.order}
+              onChange={(e) =>
+                setFooterForm((prev) => ({
+                  ...prev,
+                  order: Number(e.target.value),
+                }))
+              }
+              placeholder="Order"
+              className="h-[42px] rounded-[10px] border border-[#dfe7f1] px-3 text-[13px] text-[#071d4f]"
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={createFooterContact}
+            className="mt-3 h-[40px] px-5 rounded-[10px] bg-[#e2ac39] text-[#071d4f] text-[12px] font-black"
+          >
+            Add Contact
+          </button>
+        </div>
+
+        {footerLoading ? (
+          <p className="text-[#071d4f] font-bold">Loading...</p>
+        ) : footerContacts.length === 0 ? (
+          <p className="text-[#6b7890] text-sm">No footer contacts found.</p>
+        ) : (
+          <div className="overflow-x-auto border border-[#e5ebf4] rounded-[14px]">
+            <table className="w-full min-w-[850px] text-left">
+              <thead className="bg-[#f8fafd]">
+                <tr>
+                  <th className="px-4 py-3 text-[11px] uppercase text-[#6b7890] font-black">Type</th>
+                  <th className="px-4 py-3 text-[11px] uppercase text-[#6b7890] font-black">Label</th>
+                  <th className="px-4 py-3 text-[11px] uppercase text-[#6b7890] font-black">Value</th>
+                  <th className="px-4 py-3 text-[11px] uppercase text-[#6b7890] font-black">Order</th>
+                  <th className="px-4 py-3 text-[11px] uppercase text-[#6b7890] font-black text-right">Actions</th>
+                </tr>
+              </thead>
+
+              <tbody className="divide-y divide-[#eef2f7]">
+                {footerContacts.map((item) => {
+                  const isEditing = editingFooterId === item.id;
+
+                  return (
+                    <tr key={item.id} className="hover:bg-[#fbfcfe]">
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <select
+                            value={editingFooterForm.type}
+                            onChange={(e) =>
+                              setEditingFooterForm((prev) => ({
+                                ...prev,
+                                type: e.target.value,
+                              }))
+                            }
+                            className="h-[36px] rounded-[8px] border border-[#dfe7f1] px-2 text-[12px]"
+                          >
+                            <option value="address">Address</option>
+                            <option value="email">Email</option>
+                            <option value="website">Website</option>
+                            <option value="phone">Phone</option>
+                          </select>
+                        ) : (
+                          item.type
+                        )}
+                      </td>
+
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            value={editingFooterForm.label}
+                            onChange={(e) =>
+                              setEditingFooterForm((prev) => ({
+                                ...prev,
+                                label: e.target.value,
+                              }))
+                            }
+                            className="h-[36px] w-[130px] rounded-[8px] border border-[#dfe7f1] px-2 text-[12px]"
+                          />
+                        ) : (
+                          item.label
+                        )}
+                      </td>
+
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            value={editingFooterForm.value}
+                            onChange={(e) =>
+                              setEditingFooterForm((prev) => ({
+                                ...prev,
+                                value: e.target.value,
+                              }))
+                            }
+                            className="h-[36px] w-[260px] rounded-[8px] border border-[#dfe7f1] px-2 text-[12px]"
+                          />
+                        ) : (
+                          item.value
+                        )}
+                      </td>
+
+                      <td className="px-4 py-3">
+                        {isEditing ? (
+                          <input
+                            type="number"
+                            value={editingFooterForm.order}
+                            onChange={(e) =>
+                              setEditingFooterForm((prev) => ({
+                                ...prev,
+                                order: Number(e.target.value),
+                              }))
+                            }
+                            className="h-[36px] w-[70px] rounded-[8px] border border-[#dfe7f1] px-2 text-[12px]"
+                          />
+                        ) : (
+                          item.order
+                        )}
+                      </td>
+
+                      <td className="px-4 py-3">
+                        <div className="flex justify-end gap-2">
+                          {isEditing ? (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => saveEditFooter(item.id)}
+                                className="h-[34px] px-3 rounded-[8px] bg-green-50 text-green-700 text-[12px] font-bold"
+                              >
+                                Save
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => setEditingFooterId(null)}
+                                className="h-[34px] px-3 rounded-[8px] bg-gray-100 text-gray-600 text-[12px] font-bold"
+                              >
+                                Cancel
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => startEditFooter(item)}
+                                className="h-[34px] px-3 rounded-[8px] bg-blue-50 text-blue-600 text-[12px] font-bold"
+                              >
+                                Edit
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => deleteFooterContact(item.id)}
+                                className="h-[34px] px-3 rounded-[8px] bg-red-50 text-red-600 text-[12px] font-bold"
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+     
         </main>
       </div>
     </div>

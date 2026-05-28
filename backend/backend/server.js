@@ -10,6 +10,7 @@ const helmet = require("helmet");
 
 const { connectDB } = require("./config/db");
 const adminRoutes = require("./routes/adminRoutes");
+const footerContactRoutes = require("./routes/footerContactRoutes");
 const publicRoutes = require("./routes/publicRoutes");
 const memberRoutes = require("./routes/memberRoutes");
 const webinarRoutes = require("./routes/webinarRoutes");
@@ -71,6 +72,7 @@ app.get("/api/csrf-token", issueCsrfToken);
 app.use("/api", collaborationRoutes);
 // IMPORTANT: inquiryRoutes must come before publicRoutes
 app.use("/api", inquiryRoutes);
+app.use("/api", footerContactRoutes);
 
 app.use("/api/admin", csrfProtection, adminRoutes);
 app.use("/api", publicRoutes);

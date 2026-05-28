@@ -16,13 +16,6 @@ router.get(
   inquiryController.getAllInquiries
 );
 
-router.put(
-  "/admin/inquiries/:id",
-  csrfProtection,
-  requireAuth,
-  inquiryController.updateInquiryStatus
-);
-
 // ADMIN ONLY: delete inquiry
 router.delete(
   "/admin/inquiries/:id",
