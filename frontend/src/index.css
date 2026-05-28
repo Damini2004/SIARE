@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-navy text-white font-bold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-300 hover:bg-gold hover:text-navy hover:scale-105 hover:shadow-lg cursor-pointer;
+  }
+  .btn-outline {
+    @apply border-2 border-navy text-navy font-bold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-300 hover:border-gold hover:text-gold hover:scale-105 cursor-pointer;
+  }
+  .btn-green {
+    @apply bg-siare-green text-white font-bold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-300 hover:bg-gold hover:text-navy hover:scale-105 hover:shadow-lg cursor-pointer;
+  }
+  .btn-outline-white {
+    @apply border-2 border-white text-white font-bold px-6 py-3 rounded-full inline-flex items-center gap-2 transition-all duration-300 hover:border-gold hover:text-gold hover:scale-105 cursor-pointer;
+  }
+  .nav-link {
+    @apply text-gray-700 font-semibold text-sm uppercase tracking-wide transition-all duration-200 hover:text-gold relative pb-1;
+  }
+  .card-hover {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-gold;
+  }
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #0D1B4B; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+
+
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
