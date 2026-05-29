@@ -3,16 +3,12 @@ import { Link } from "react-router-dom";
 import homeBg from "../assets/home.png";
 
 import image from "../assets/image.png";
-
-
 import quoteBg from "../assets/temp.jpeg";
 import icon2 from "../assets/icon2.png";
 import icon3 from "../assets/icon3.png";
 import icon4 from "../assets/icon4.png";
 import icon5 from "../assets/icon5.png";
-import siare from "../assets/siare.png"
-
-
+import siare from "../assets/siare2.png";
 
 export default function Home() {
   return (
@@ -152,8 +148,8 @@ export default function Home() {
 
     rounded-full
 
-    bg-[linear-gradient(180deg,#1251a0_0%,#0f468d_45%,#0c3067_100%)]
-
+    
+    bg-[#0057a8]
     text-white
     text-[0.75rem]
     sm:text-[0.83rem]
@@ -161,13 +157,11 @@ export default function Home() {
 
     flex items-center justify-center gap-2
 
-    border border-[#0c3067]
-
     shadow-[0_8px_18px_rgba(12,48,103,0.32)]
 
     transition-all duration-300 ease-out
 
-    hover:bg-[linear-gradient(180deg,#166fcf_0%,#1251a0_50%,#0c3067_100%)]
+    hover:bg-[linear-gradient(180deg,#1251a0_0%,#0f468d_45%,#0c3067_100%)]
     hover:shadow-[0_12px_26px_rgba(22,111,207,0.45)]
     hover:-translate-y-[1px]
 
@@ -223,7 +217,7 @@ export default function Home() {
 
       transition-all duration-300 ease-out
 
-      hover:bg-[#0c3067]
+      hover:bg-[#0057a8]
       hover:text-white
       hover:shadow-[0_10px_22px_rgba(12,48,103,0.30)]
       hover:-translate-y-[1px]

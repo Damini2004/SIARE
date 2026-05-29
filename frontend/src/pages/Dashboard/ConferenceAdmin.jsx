@@ -380,13 +380,6 @@ export default function ConferenceAdmin() {
               value={form.venue?.subAddress}
               onChange={(v) => setSection("venue", "subAddress", v)}
             />
-
-            <UploadInput
-              label="Venue Image"
-              value={form.venue?.image}
-              onChange={(v) => setSection("venue", "image", v)}
-              onUpload={(file) => handleUpload("venue", "image", file)}
-            />
           </Grid>
         </Panel>
 

@@ -227,13 +227,7 @@ const handleImageUpload = async (e) => {
     Add Member
   </button>
 
-  <button
-    onClick={openHonoraryForm}
-    className="h-[46px] px-5 rounded-[14px] bg-white text-[#071d4f] text-[13px] font-black flex items-center justify-center gap-2 shadow-[0_14px_34px_rgba(255,255,255,0.18)] hover:bg-[#e2ac39] transition-all duration-300"
-  >
-    <Plus size={17} />
-    Add Honorary Member
-  </button>
+ 
 </div>
           </div>
         </div>
@@ -263,9 +257,10 @@ const handleImageUpload = async (e) => {
                 <tr>
                   <th className="th">Member</th>
                   <th className="th">Contact</th>
-                  <th className="th">Institution</th>
                   <th className="th">Designation</th>
-                  <th className="th">Department</th>
+                  <th className="th">Institution</th>
+                  
+                  <th className="th">Action</th>
                 
                 </tr>
               </thead>  
@@ -302,20 +297,10 @@ const handleImageUpload = async (e) => {
 
   <div>
     <p className="font-bold text-[#071d4f]">{member.name}</p>
-    <p className="text-[12px] text-[#6b7890] mt-1">
-      {member.memberCode || "-"}
-    </p>
+   
   </div>
 </div>
-                        {/* <p className="font-bold text-[#071d4f]">
-                          {member.name}
-                        </p>
-                        <p className="text-[12px] text-[#6b7890] mt-1">
-                          Joined:{" "}
-                          {member.joinedAt
-                            ? String(member.joinedAt).slice(0, 10)
-                            : "-"}
-                        </p> */}
+                      
                       </td>
 
                       <td className="td">
@@ -323,10 +308,7 @@ const handleImageUpload = async (e) => {
                           <Mail size={14} className="text-[#e2ac39]" />
                           {member.email}
                         </p>
-                        <p className="flex items-center gap-2 text-[12px] text-[#6b7890] mt-2">
-                          <Phone size={13} />
-                          {member.phone || "-"}
-                        </p>
+                       
                       </td>
 
                       <td className="td">
@@ -469,17 +451,6 @@ const handleImageUpload = async (e) => {
 
          
 
-          <Field label="Status">
-            <select
-              value={form.status}
-              onChange={(e) => handleChange("status", e.target.value)}
-              className="input"
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-              <option value="pending">Pending</option>
-            </select>
-          </Field>
           <Field label="Scopus">
   <input
     value={form.scopus}
@@ -498,14 +469,7 @@ const handleImageUpload = async (e) => {
   />
 </Field>
 
-          <Field label="Joined Date">
-            <input
-              type="date"
-              value={form.joinedAt}
-              onChange={(e) => handleChange("joinedAt", e.target.value)}
-              className="input"
-            />
-          </Field>
+        
 
     <Field label="Member Image URL">
   <input
@@ -532,23 +496,7 @@ const handleImageUpload = async (e) => {
 
          
 
-          <div className="md:col-span-2">
-            <label className="flex items-center gap-3 rounded-[14px] border border-[#dfe7f1] bg-[#f8fafd] px-4 py-3 text-[#071d4f] text-[13px] font-black">
-            <input
-  type="checkbox"
-  checked={Boolean(form.isHonorary)}
-  onChange={(e) => {
-    handleChange("isHonorary", e.target.checked);
-
-    if (e.target.checked) {
-      handleChange("tier", "Honorary Member");
-    }
-  }}
-  className="w-4 h-4 accent-[#e2ac39]"
-/>
-              Honorary Member
-            </label>
-          </div>
+       
 
           {form.imageUrl && (
             <div className="md:col-span-2 rounded-[16px] border border-[#dfe7f1] bg-[#f8fafd] p-4">
