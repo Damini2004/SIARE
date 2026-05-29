@@ -102,9 +102,21 @@ export default function Workshop() {
     );
   }
 
-  const basic = detail?.basic || {};
-  const hero = detail?.hero || {};
-  const infoBar = detail?.infoBar || {};
+const basic = detail?.basic || {};
+const hero = detail?.hero || {};
+const infoBar = detail?.infoBar || {};
+
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5000";
+
+const workshopBgUrl =
+  hero?.backgroundImage
+    ? hero.backgroundImage.startsWith("http")
+      ? hero.backgroundImage
+      : `${API_BASE}${hero.backgroundImage}`
+    : conferenceImg;
+
   const about = detail?.about || {};
   const organizer = detail?.organizer || {};
   const certificates = detail?.certificates || {};
@@ -131,7 +143,7 @@ export default function Workshop() {
       <section
         className="relative bg-[#061b45] overflow-hidden min-h-[440px] max-[690px]:min-h-[580px] max-[500px]:min-h-[640px]"
         style={{
-          backgroundImage: `url(${hero.backgroundImage || conferenceImg})`,
+          backgroundImage: `url(${workshopBgUrl})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

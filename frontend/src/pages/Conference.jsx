@@ -26,7 +26,7 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import { getEventById } from "../api/eventApi";
 import { getConferenceContent } from "../api/conferenceApi";
-import conf from "../assets/conf.png";
+import conf from "../assets/conf2.png";
 
 const iconMap = {
   CalendarDays,
@@ -672,14 +672,8 @@ mt-2
           <div className="grid md:grid-cols-2 gap-5 items-center">
             <div className="overflow-hidden rounded-[8px]">
               <img
-                src={
-                  venue?.image
-                    ? venue.image.startsWith("http")
-                      ? venue.image
-                      : `${import.meta.env.VITE_API_URL}${venue.image}`
-                    : conf
-                }
-                alt={venue.location || "Conference Venue"}
+                src={conf}
+                alt="Conference Venue"
                 className="
       rounded-[8px]
       h-[180px]
@@ -688,9 +682,6 @@ mt-2
       transition-all duration-500
       hover:scale-105
     "
-                onError={(e) => {
-                  e.target.src = conf;
-                }}
               />
             </div>
 
