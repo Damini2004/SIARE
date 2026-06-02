@@ -10,8 +10,8 @@ export default function Login() {
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
-    email: "admin@siare.org",
-    password: "Admin@1234",
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
