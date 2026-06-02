@@ -1,8 +1,8 @@
 import {
   ArrowRight,
-  CalendarDays,
   Handshake,
   User,
+  Globe2, Landmark
 } from "lucide-react";
 
 import clientsImg from "../assets/clienttt.png";
@@ -146,35 +146,47 @@ export default function Clients() {
           </p>
 
           {/* Stats */}
-          <div className="flex flex-wrap gap-4 mt-6">
-            <div className="bg-[#061b45]/78 border border-white/40 rounded-[8px] px-4 h-[95px] min-w-[180px] flex items-center gap-3">
-              <div>
-                <div className="text-[#38d430] font-bold text-[30px]">
-                  {collaborations.length}+
-                </div>
+         <div className="flex flex-wrap gap-4 mt-6">
+  <div className="group bg-[#061b45]/80 border border-white/40 rounded-[10px] px-4 h-[100px] min-w-[120px] flex items-center gap-4 transition-all duration-500 hover:-translate-y-2 hover:border-[#38d430] hover:shadow-[0_18px_45px_rgba(56,212,48,0.25)]">
+    <Globe2
+      size={40}
+      strokeWidth={2.5}
+      className="text-[#38d430] transition-all duration-500 group-hover:scale-110 group-hover:rotate-6"
+    />
 
-                <div className="text-white text-[11px] uppercase">
-                  International
-                  <br />
-                  Collaborations
-                </div>
-              </div>
-            </div>
+    <div>
+      <div className="text-[#38d430] font-bold text-[30px] leading-none">
+        {collaborations.length}+
+      </div>
 
-            <div className="bg-[#061b45]/78 border border-white/40 rounded-[8px] px-4 h-[95px] min-w-[180px] flex items-center gap-3">
-              <div>
-                <div className="text-[#f6aa13] font-bold text-[30px]">
-                  {members.length}+
-                </div>
+      <div className="text-white font-semibold text-[12px] leading-[15px] uppercase mt-2">
+        International
+        <br />
+        Collaborations
+      </div>
+    </div>
+  </div>
 
-                <div className="text-white text-[11px] uppercase">
-                  Registered
-                  <br />
-                  Members
-                </div>
-              </div>
-            </div>
-          </div>
+  <div className="group bg-[#061b45]/80 border border-white/40 rounded-[10px] px-4 h-[100px] min-w-[190px] flex items-center gap-4 transition-all duration-500 hover:-translate-y-2 hover:border-[#f6aa13] hover:shadow-[0_18px_45px_rgba(246,170,19,0.25)]">
+    <Landmark
+      size={40}
+      strokeWidth={2.5}
+      className="text-[#f6aa13] transition-all duration-500 group-hover:scale-110 group-hover:-rotate-6"
+    />
+
+    <div>
+      <div className="text-[#f6aa13] font-bold text-[30px] leading-none">
+        {members.length}+
+      </div>
+
+      <div className="text-white font-semibold text-[12px] leading-[15px] uppercase mt-2">
+        Registerd
+        <br />
+        Members
+      </div>
+    </div>
+  </div>
+</div>
         </div>
       </section>
 
