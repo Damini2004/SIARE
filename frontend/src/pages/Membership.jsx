@@ -1,7 +1,7 @@
 // API Integration: membership tiers loaded from GET /api/membership-tiers
 import { useState, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
-import membershipImg from "../assets/membership.jpeg";
+import membershipImg from "../assets/membership.webp";
 import icon1 from "../assets/icon1.png";
 import icon2 from "../assets/icon2.png";
 import icon3 from "../assets/icon3.png";
