@@ -80,6 +80,44 @@ export default function EventDetailsMiddle() {
     return <div className="py-[250px] text-center">Webinar not found</div>;
   }
 
+  const parseJson = (value, fallback) => {
+  if (!value) return fallback;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return fallback;
+    }
+  }
+  return value;
+};
+
+const toArray = (value, fallback = []) => {
+  const parsed = parseJson(value, fallback);
+  return Array.isArray(parsed) ? parsed : fallback;
+};
+
+const toObject = (value, fallback = {}) => {
+  const parsed = parseJson(value, fallback);
+  return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+    ? parsed
+    : fallback;
+};
+
+
+const basic = toObject(detail?.basic);
+const hero = toObject(detail?.hero);
+const infoBar = toObject(detail?.infoBar);
+const about = toObject(detail?.about);
+const organizer = toObject(detail?.organizer);
+const cta = toObject(detail?.cta);
+
+const topics = toArray(detail?.topics);
+const joiningSteps = toArray(detail?.joiningSteps);
+const registrations = toArray(detail?.registrations);
+const targetAudience = toArray(detail?.targetAudience);
+const highlights = toArray(detail?.highlights);
+
   return (
     <main className="w-full bg-white">
       {/* HERO */}
@@ -109,7 +147,7 @@ export default function EventDetailsMiddle() {
               Events
             </Link>
             <span>›</span>
-            <span className="hidden sm:block">{detail?.basic?.title || event.title}</span>
+            <span className="hidden sm:block">{basic?.title || event.title}</span>
           </div>
 
           <div className="flex flex-row gap-5 max-[670px]:gap-3 max-[670px]:items-start">
@@ -138,42 +176,42 @@ export default function EventDetailsMiddle() {
             <div className="w-full max-w-[680px] min-w-0">
               <p className="text-white text-[12px] max-[670px]:text-[11px] font-medium uppercase flex items-center gap-2 mb-1">
                 <Monitor size={15} />
-                {detail?.basic?.type || event.type}
+                {basic?.type || event.type}
               </p>
 
               <h1 className="text-white text-[1.2rem] sm:text-[1.6rem] lg:text-[1.9rem] max-[670px]:text-[1.28rem] max-[420px]:text-[1.08rem] font-bold leading-[1.15] w-full max-w-[450px]">
-                {detail?.basic?.title || event.title}
+                {basic?.title || event.title}
               </h1>
 
               <div className="flex flex-wrap gap-6 max-[670px]:gap-4 mt-5 max-[670px]:mt-4 text-white text-[14px] max-[670px]:text-[12px]">
                 <span className="flex items-center gap-2">
                   <CalendarDays size={18} />
-                  {detail?.hero?.date || event.date}
+                 {hero.date || event.date}
                 </span>
 
                 <span className="flex items-center gap-2">
                   <Clock size={18} />
-                  {detail?.hero?.time || event.time}
+                 {hero.time || event.time}
                 </span>
 
                 <span className="flex items-center gap-2">
                   <Monitor size={18} />
-                  {detail?.hero?.platform || event.location}
+                  {hero.platform || event.location}
                 </span>
               </div>
 
               <p className="text-white/90 text-[13px] max-[670px]:text-[12px] leading-[1.7] mt-3 max-w-[520px] max-[670px]:max-w-full">
-                {detail?.basic?.shortDescription || event.description}
+                {basic?.shortDescription || event.description}
               </p>
 
               <div className="flex flex-wrap gap-3 mt-4">
                 <a
-                  href={detail?.hero?.ctaUrl || event.link || "https://membership.siaresociety.org/register"}
+                  href={hero.ctaUrl || event.link || "https://membership.siaresociety.org/register"}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <button className="group h-[44px] px-6 max-[670px]:px-4 rounded-[8px] bg-[linear-gradient(180deg,#ffe29a_0%,#eeba47_48%,#c8932a_100%)] text-white font-bold text-[13px] max-[670px]:text-[11px] flex items-center justify-center gap-2 border border-[#d4aa35] shadow-[0_10px_22px_rgba(226,172,57,0.28)] transition-all duration-500 ease-out hover:-translate-y-[3px] hover:scale-[1.03] hover:text-white hover:bg-[linear-gradient(180deg,#fff0bc_0%,#eeba47_48%,#b9851e_100%)] hover:shadow-[0_18px_36px_rgba(226,172,57,0.50)] active:scale-[0.96]">
-                    {detail?.hero?.ctaText || "REGISTER NOW"}
+                 {hero.ctaText || "REGISTER NOW"}
                     <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
                   </button>
                 </a>
@@ -196,14 +234,14 @@ export default function EventDetailsMiddle() {
       <section className="relative -mt-10 z-10">
         <div className="w-full xl:max-w-[1150px] lg:max-w-[950px] mx-auto px-5">
           <div className="bg-white rounded-[10px] shadow-[0_8px_24px_rgba(0,0,0,.12)] border border-[#e5e7eb] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 overflow-hidden">
-            {[
-              ["DATE", detail?.infoBar?.date || event.date, CalendarDays],
-              ["TIME", detail?.infoBar?.time || event.time, Clock],
-              ["EVENT TYPE", detail?.infoBar?.eventType || event.type, Monitor],
-              ["LOCATION", detail?.infoBar?.platform || event.location, Laptop],
-              ["SPEAKER", detail?.infoBar?.mainSpeaker || event.speaker, Users],
-              ["STATUS", detail?.infoBar?.status || event.status, CheckCircle],
-            ].map(([title, value, Icon], i) => (
+           {[
+  ["DATE", infoBar.date || event.date, CalendarDays],
+  ["TIME", infoBar.time || event.time, Clock],
+  ["EVENT TYPE", infoBar.eventType || event.type, Monitor],
+  ["LOCATION", infoBar.platform || event.location, Laptop],
+  ["SPEAKER", infoBar.mainSpeaker || event.speaker, Users],
+  ["STATUS", infoBar.status || event.status, CheckCircle],
+].map(([title, value, Icon], i) => (
               <div key={i} className="group relative p-5 flex gap-3 border-r border-b lg:border-b-0 last:border-r-0 border-[#dce3ee] transition-all duration-300 hover:bg-[#faf7ff] hover:-translate-y-[3px] hover:shadow-[0_14px_28px_rgba(124,58,237,0.12)] hover:z-10">
                 <Icon size={28} className="text-[#0055e0] shrink-0 transition-all duration-300 group-hover:scale-110 mt-2" />
                 <div>
@@ -219,16 +257,16 @@ export default function EventDetailsMiddle() {
       {/* CONTENT */}
       <section className="w-full max-w-[1320px] mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 py-9 grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
         <div>
-          <BlockTitle title={detail?.about?.title || "About The Webinar"} />
+          <BlockTitle title={about.title || "About The Webinar"} />
 
           <p className="text-[#041743] text-[14px] leading-[1.65] mb-4 w-full max-w-[580px]">
-            {detail?.about?.description || event.description}
+            {about.description || event.description}
           </p>
 
           <BlockTitle title="Topics To Be Covered" className="mt-8" />
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {(detail?.topics || []).map((topic, i) => {
+            {topics.map((topic, i) => {
               const Icon = iconMap[topic.icon] || BookOpen;
 
               return (
@@ -257,7 +295,7 @@ export default function EventDetailsMiddle() {
           <BlockTitle title="How To Join" className="mt-6" />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {(detail?.joiningSteps || []).map((step, i) => {
+            {joiningSteps.map((step, i) => {
               const Icon = iconMap[step.icon] || ClipboardCheck;
 
               return (
@@ -283,7 +321,7 @@ export default function EventDetailsMiddle() {
         {/* SIDEBAR */}
         <aside className="space-y-3">
           <SideCard title="Registration Details">
-            {(detail?.registrations || []).map((item, i) => (
+            {registrations.map((item, i) => (
               <div key={i} className="group border border-[#dce3ee] rounded-[8px] p-4 flex gap-3 mb-2 bg-white transition-all duration-300 hover:-translate-y-1 hover:border-[#e2ac39]">
                 <div className="w-[38px] h-[38px] rounded-full bg-[#fff7e2] text-[#e2ac39] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-[#e2ac39] group-hover:text-white group-hover:scale-110">
                   <CalendarCheck size={18} />
@@ -301,7 +339,7 @@ export default function EventDetailsMiddle() {
             ))}
 
             <a
-              href={detail?.registrations?.[0]?.url || detail?.hero?.ctaUrl || event.link || "#"}
+              href={registrations?.[0]?.url || hero.ctaUrl || event.link || "#"}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -313,7 +351,7 @@ export default function EventDetailsMiddle() {
           </SideCard>
 
           <SideCard title="Who Should Attend?">
-            {(detail?.targetAudience || []).map((item, i) => (
+            {targetAudience.map((item, i) => (
               <p key={i} className="group text-[#071d4f] text-[12px] flex items-center gap-2 mb-1 transition-all duration-300 hover:translate-x-1 hover:text-[#b9851e]">
                 <CheckCircle size={14} className="text-[#e2ac39] shrink-0 transition-all duration-300 group-hover:scale-125" />
                 {item.title}
@@ -322,7 +360,7 @@ export default function EventDetailsMiddle() {
           </SideCard>
 
           <SideCard title="Webinar Highlights">
-            {(detail?.highlights || []).map((item, i) => (
+            {highlights.map((item, i) => (
               <p key={i} className="group text-[#071d4f] text-[12px] flex items-center gap-2 mb-1 transition-all duration-300 hover:translate-x-1 hover:text-[#b9851e]">
                 <CheckCircle size={14} className="text-[#e2ac39] shrink-0 transition-all duration-300 group-hover:scale-125" />
                 {item.title}
@@ -331,14 +369,14 @@ export default function EventDetailsMiddle() {
           </SideCard>
 
           <SideCard title="Event Organizer">
-            {[
-              [Users, `${detail?.organizer?.name || ""} ${detail?.organizer?.description || ""}`.trim()],
-              [Mail, detail?.organizer?.email],
-              [Globe, detail?.organizer?.website],
-              [Phone, detail?.organizer?.phone],
-            ]
-              .filter(([, text]) => text)
-              .map(([Icon, text], i) => (
+           {[
+  [Users, `${organizer.name || ""} ${organizer.description || ""}`.trim()],
+  [Mail, organizer.email],
+  [Globe, organizer.website],
+  [Phone, organizer.phone],
+]
+  .filter(([, text]) => text)
+  .map(([Icon, text], i) => (
                 <p key={i} className="group flex items-center gap-3 text-[12px] text-[#071d4f] mb-2 last:mb-0 transition-all duration-300 hover:translate-x-1 hover:text-[#b9851e]">
                   <span className="w-[30px] h-[30px] rounded-full bg-[#fff7e2] text-[#e2ac39] flex items-center justify-center shrink-0 transition-all duration-300 group-hover:bg-[#e2ac39] group-hover:text-white group-hover:scale-110">
                     <Icon size={15} />
@@ -360,18 +398,18 @@ export default function EventDetailsMiddle() {
               </div>
 
               <p className="font-semibold text-[14px] sm:text-[16px] leading-[1.55] max-w-[480px]">
-                {detail?.cta?.description || "Gain valuable insights and learn best practices for ethical and impactful research publishing."}
+               {cta.description || "Gain valuable insights and learn best practices for ethical and impactful research publishing."}
               </p>
             </div>
 
             <a
-              href={detail?.cta?.buttonUrl || detail?.hero?.ctaUrl || event.link || "#"}
+              href={cta.buttonUrl || hero.ctaUrl || event.link || "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto"
             >
               <button className="group/btn relative h-[46px] px-8 rounded-[26px] bg-[linear-gradient(180deg,#ffe29a_0%,#eeba47_48%,#c8932a_100%)] border border-[#d4aa35] text-[#071d4f] font-bold text-[13px] uppercase flex items-center justify-center gap-3 shadow-[0_10px_24px_rgba(226,172,57,0.28)] transition-all duration-500 hover:-translate-y-1 hover:scale-[1.03] hover:text-white hover:shadow-[0_16px_34px_rgba(226,172,57,0.42)] w-full sm:w-auto">
-                {detail?.cta?.buttonText || "REGISTER NOW"}
+                {cta.buttonText || "REGISTER NOW"}
                 <ArrowRight size={18} className="transition-all duration-300 group-hover/btn:translate-x-1" />
               </button>
             </a>

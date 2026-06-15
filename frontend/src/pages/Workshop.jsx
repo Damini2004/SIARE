@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import conferenceImg from "../assets/workshopbg.webp";
+import workshopbg from "../assets/workshopbg.webp";
 import eventIcon from "../assets/workIcon.webp";
 import { getEventById } from "../api/eventApi";
 import { getWorkshopContent } from "../api/workshopApi";
@@ -102,48 +102,74 @@ export default function Workshop() {
     );
   }
 
-const basic = detail?.basic || {};
-const hero = detail?.hero || {};
-const infoBar = detail?.infoBar || {};
+const parseJson = (value, fallback) => {
+  if (!value) return fallback;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return fallback;
+    }
+  }
+  return value;
+};
 
-const API_BASE =
-  import.meta.env.VITE_API_URL ||
-  "http://localhost:5000";
+const toArray = (value, fallback = []) => {
+  const parsed = parseJson(value, fallback);
+  return Array.isArray(parsed) ? parsed : fallback;
+};
 
-const workshopBgUrl =
-  hero?.backgroundImage
-    ? hero.backgroundImage.startsWith("http")
-      ? hero.backgroundImage
-      : `${API_BASE}${hero.backgroundImage}`
-    : conferenceImg;
+const toObject = (value, fallback = {}) => {
+  const parsed = parseJson(value, fallback);
+  return parsed && typeof parsed === "object" && !Array.isArray(parsed)
+    ? parsed
+    : fallback;
+};
 
-  const about = detail?.about || {};
-  const organizer = detail?.organizer || {};
-  const certificates = detail?.certificates || {};
-  const gallery = detail?.mediaGallery || {};
-  const cta = detail?.cta || {};
-  const outcomes = detail?.outcomes?.length ? detail.outcomes : fallbackOutcomes;
-  const targetAudience = detail?.targetAudience?.length ? detail.targetAudience : fallbackAudience;
-  const registrations = detail?.registrations?.length
-    ? detail.registrations
-    : [{ title: "Standard Registration", endDate: "", fee: "Free", currency: "", badgeColor: "#0d6efd", url: event.link }];
-  const highlights = detail?.highlights?.length
-    ? detail.highlights
-    : [{ title: "Hands-on practical sessions", icon: "CheckCircle" }, { title: "Certificate of participation", icon: "CheckCircle" }];
-  const timeline = detail?.timeline || [];
-  const facilitators = detail?.facilitators || [];
-  const schedule = detail?.schedule || [];
-  const testimonials = detail?.testimonials || [];
-  const sponsors = detail?.sponsors || [];
+
+const basic = toObject(detail?.basic);
+const hero = toObject(detail?.hero);
+const infoBar = toObject(detail?.infoBar);
+const about = toObject(detail?.about);
+const organizer = toObject(detail?.organizer);
+const certificates = toObject(detail?.certificates);
+const gallery = toObject(detail?.mediaGallery);
+const cta = toObject(detail?.cta);
+
+const outcomes = toArray(detail?.outcomes, fallbackOutcomes);
+const targetAudience = toArray(detail?.targetAudience, fallbackAudience);
+const registrations = toArray(detail?.registrations, [
+  {
+    title: "Standard Registration",
+    endDate: "",
+    fee: "Free",
+    currency: "",
+    badgeColor: "#0d6efd",
+    url: event.link,
+  },
+]);
+const highlights = toArray(detail?.highlights, [
+  { title: "Hands-on practical sessions", icon: "CheckCircle" },
+  { title: "Certificate of participation", icon: "CheckCircle" },
+]);
+
+const timeline = toArray(detail?.timeline);
+const facilitators = toArray(detail?.facilitators);
+const schedule = toArray(detail?.schedule);
+const testimonials = toArray(detail?.testimonials);
+const sponsors = toArray(detail?.sponsors);
   const title = basic.title || event.title;
   const registerUrl = hero.ctaUrl || event.link || "https://membership.siaresociety.org/register";
+
+
+
 
   return (
     <main className="w-full bg-white">
       <section
         className="relative bg-[#061b45] overflow-hidden min-h-[440px] max-[690px]:min-h-[580px] max-[500px]:min-h-[640px]"
         style={{
-          backgroundImage: `url(${workshopBgUrl})`,
+          backgroundImage: `url(${workshopbg})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

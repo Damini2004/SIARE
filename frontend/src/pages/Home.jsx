@@ -1,7 +1,6 @@
 import { Send, Search, UsersRound, GraduationCap, CalendarDays, BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import homeBg from "../assets/home.png";
-
 import image from "../assets/image.png";
 import quoteBg from "../assets/temp.webp";
 import icon2 from "../assets/icon2.png";
