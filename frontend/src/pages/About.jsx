@@ -8,7 +8,7 @@ import sec from "../assets/security.png";
 import ppl from "../assets/people.png";
 import bar from "../assets/bar.png";
 import quoteImg from "../assets/q.png";
-import quoteBg from "../assets/temp.jpg";
+import quoteBg from "../assets/temp.webp";
 import {
   Globe2,
   FileText,
