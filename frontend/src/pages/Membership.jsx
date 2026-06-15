@@ -11,10 +11,10 @@ import icon5 from "../assets/icon5.png";
 import document from "../assets/document.png";
 import people from "../assets/people.png";
 // import protect from "../assets/protect.png";
-import security from "../assets/security.png";
+import security from "../assets/security.webp";
 // import bar from "../assets/bar.png";
 // import quoteImg from "../assets/q.png";
-import quoteBg from "../assets/temp.jpg";
+import quoteBg from "../assets/temp.webp";
 
 
 const membershipTypes = [

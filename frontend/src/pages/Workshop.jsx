@@ -23,8 +23,8 @@ import {
 } from "lucide-react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import conferenceImg from "../assets/workshopbg.png";
-import eventIcon from "../assets/workIcon.png";
+import conferenceImg from "../assets/workshopbg.webp";
+import eventIcon from "../assets/workIcon.webp";
 import { getEventById } from "../api/eventApi";
 import { getWorkshopContent } from "../api/workshopApi";
 

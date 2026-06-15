@@ -4,10 +4,10 @@ import icon2 from "../assets/icon2.png";
 import icon3 from "../assets/icon3.png";
 import icon4 from "../assets/icon4.png";
 import glob from "../assets/globeicon.png";
-import sec from "../assets/security.png";
+import sec from "../assets/security.webp";
 import ppl from "../assets/people.png";
 import bar from "../assets/bar.png";
-import quoteImg from "../assets/q.png";
+import quoteImg from "../assets/q.webp";
 import quoteBg from "../assets/temp.webp";
 import {
   Globe2,

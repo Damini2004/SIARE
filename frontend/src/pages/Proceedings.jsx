@@ -10,7 +10,7 @@ import {
   BarChart3,
   ShieldCheck,
 } from "lucide-react";
-import procImg from "../assets/proc.png";
+import procImg from "../assets/proc.webp";
 import icon1 from "../assets/icon1.png";
 import icon2 from "../assets/icon2.png";
 import icon3 from "../assets/icon3.png";
@@ -19,7 +19,7 @@ import icon5 from "../assets/icon5.png";
 // import { getJournals } from "../api/journalApi";
 import {Link} from "react-router-dom"
 // import quoteImg from "../assets/q.png";
-import quoteBg from "../assets/temp.jpg";
+import quoteBg from "../assets/temp.webp";
 
 const categories = [
   {

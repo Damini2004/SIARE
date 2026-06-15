@@ -17,7 +17,7 @@ import {
   Scale,
   FileText,
 } from "lucide-react";
-import conferenceImg from "../assets/webinar.png";
+import conferenceImg from "../assets/webinar.webp";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getWebinarContent } from "../api/webinarApi";

@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 import clientsImg from "../assets/clienttt.png";
-import quoteBg from "../assets/temp.jpeg";
+import quoteBg from "../assets/temp.webp";
 
 import { useEffect, useState } from "react";
 

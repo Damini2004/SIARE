@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import homeBg from "../assets/home.png";
 
 import image from "../assets/image.png";
-import quoteBg from "../assets/temp.jpeg";
+import quoteBg from "../assets/temp.webp";
 import icon2 from "../assets/icon2.png";
 import icon3 from "../assets/icon3.png";
 import icon4 from "../assets/icon4.png";
 import icon5 from "../assets/icon5.png";
-import siare from "../assets/siare2.png";
+import siare from "../assets/siare2.webp";
 
 export default function Home() {
   return (
